@@ -13,21 +13,20 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useGetProductsQuery, useAddProductMutation, useUpdateProductMutation, useDeleteProductMutation } from '../../services/product';
-import Sidebar from '../Sidebar';
 import DialogComponent from './DialogComponent';
 
 const Products = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    
+
     const [open, setOpen] = React.useState(false);
     const [productObj, setProductObj] = React.useState({
         id: '',
         title: '',
         price: '',
         description: '',
+        type: '',
         edit: false,
-        type: "Add Product"
     });
     const [addProduct] = useAddProductMutation();
     const [updateProduct] = useUpdateProductMutation();
@@ -58,7 +57,7 @@ const Products = () => {
             description: data.description,
             type: "Edit Product",
             edit: true
-        })
+        });
         console.log("inside handle edit", data);
     };
 
@@ -79,6 +78,7 @@ const Products = () => {
 
     const handleClickOpen = () => {
         setOpen(true);
+        setProductObj({ edit: false, type: "Add Product" });
     };
 
     const handleClose = () => {
@@ -89,7 +89,7 @@ const Products = () => {
     console.log("my data productObj", productObj);
     return (
         <div>
-            <Sidebar />
+
             <DialogComponent
                 open={open}
                 handleClose={handleClose}
@@ -109,7 +109,7 @@ const Products = () => {
                     </div>
 
                     <div style={{ float: 'right' }}>
-                        <Button variant="outlined" onClick= {handleClickOpen}>
+                        <Button variant="outlined" onClick={handleClickOpen}>
                             Add Product
                         </Button>
                     </div>

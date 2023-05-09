@@ -1,20 +1,46 @@
+import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Dashboard from "./components/Dashboard";
-import Products from "./components/Products/Products";
-import Main from './components/Main';
+import Sidebar from './components/Sidebar';
+
+const Dashboard = React.lazy(() => import('./components/Dashboard'));
+const Main = React.lazy(() => import('./components/Main'));
+const Products = React.lazy(() => import('./components/Products/Products'));
 
 function App() {
   return (
-    <div>
+    <>
       <BrowserRouter>
+        <Sidebar />
         <Routes>
-          <Route path="/" element={<Main />}></Route>
-          <Route path="/dashboard" element={<Dashboard />}></Route>
-          <Route path="/products" element={<Products />}></Route>
+          <Route path="/"
+            element={
+              <React.Suspense fallback={<>...</>}>
+                <Main />
+              </React.Suspense>
+            }
+          >
+          </Route>
+          <Route path="/dashboard"
+            element={
+              <React.Suspense fallback={<>...</>}>
+                <Dashboard />
+              </React.Suspense>
+            }
+          ></Route>
+          <Route path="/products"
+            element={
+              <React.Suspense fallback={<>...</>}>
+                <Products />
+              </React.Suspense>
+            }
+          ></Route>
         </Routes>
       </BrowserRouter>
-    </div>
+    </>
   );
 }
+
+
+
 
 export default App;
